@@ -12,7 +12,6 @@ export const CollectDataPage = () => {
   return (
     <div className="collectDataWrapper">
       <div className="collectDataContainer">
-        {" "}
         <Form
           form={form}
           name="user_form"
