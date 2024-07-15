@@ -1,7 +1,8 @@
 {
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-client": "cd client && npm run dev"
+    "start-client": "cd client && npm run dev",
+    "start-server": "cd api && npm run dev"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.16.0",
