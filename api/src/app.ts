@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import cors from "cors";
-import express from "express";
 import dotenv from "dotenv";
+import express from "express";
 import mongoose from "mongoose";
 
 dotenv.config({ path: "./.env" });
@@ -22,7 +22,7 @@ app.listen(port, () => {
     mongoose
       .connect(MONGO_URL)
       .then(async () => {
-        console.log("Connected to Mongo Database");
+        console.log("Connected to Mongo DB");
       })
       .catch((err: any) => {
         console.error(err.message);

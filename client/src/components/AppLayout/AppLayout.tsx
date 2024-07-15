@@ -14,7 +14,10 @@ export const AppLayout: React.FC = () => {
   const location = useLocation();
 
   const menuItems: ItemType<MenuItemType>[] = useMemo(
-    () => [{ key: MENU_ITEMS_KEYS.MAIN, label: "Main" }],
+    () => [
+      { key: MENU_ITEMS_KEYS.MAIN, label: "Main" },
+      { key: MENU_ITEMS_KEYS.COLLECT_DATA, label: "Collect data" },
+    ],
     [],
   );
 
