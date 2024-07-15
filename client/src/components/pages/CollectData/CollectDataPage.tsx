@@ -1,5 +1,5 @@
 import { App, Button, Checkbox, DatePicker, Form, Input, Select, Tooltip } from "antd";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import InputMask from "react-input-mask";
 
 import { dataCollectionAPI } from "../../../redux/services/DataCollectionService";
@@ -10,34 +10,83 @@ import "./collectDataPage.styles.css";
 const { Option } = Select;
 
 export const CollectDataPage = () => {
+  const [dto, setDto] = useState<CollectFormType | any>({});
+
   const [form] = Form.useForm();
 
   const { notification } = App.useApp();
 
-  const [collectUserDataMutation, { isLoading, error, isSuccess }] =
-    dataCollectionAPI.useCollectUserDataMutation();
+  const [
+    collectUserDataMutation,
+    {
+      isLoading: collectUserDataLoading,
+      error: collectUserDataError,
+      isSuccess: collectUserDataSuccess,
+    },
+  ] = dataCollectionAPI.useCollectUserDataMutation();
+
+  const [
+    sendCollectedUserDataMutation,
+    {
+      isLoading: sendCollectedUserDataLoading,
+      error: sendCollectedUserDataError,
+      isSuccess: sendCollectedUserDataSuccess,
+    },
+  ] = dataCollectionAPI.useSendCollectedDataToAPIMutation();
+
+  const sendCollectedData = useCallback(async () => {
+    if (Object.keys(dto).length) {
+      await sendCollectedUserDataMutation(dto);
+    }
+  }, [dto, sendCollectedUserDataMutation]);
 
   useEffect(() => {
-    if (error) {
+    if (collectUserDataError) {
       notification.error({
-        message: "Error",
-        description: error.toString(),
+        message: "Error (collecting data)",
+        description: collectUserDataError.toString(),
         placement: "topRight",
       });
     }
-  }, [error]);
+  }, [collectUserDataError]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (collectUserDataSuccess) {
       notification.success({
         message: "Success",
-        description: "Data has been collected successfully",
+        description: "Data has been stored successfully",
         placement: "topRight",
       });
 
-      setTimeout(() => form.resetFields(), 600);
+      setTimeout(() => {
+        sendCollectedData();
+      }, 600);
     }
-  }, [isSuccess]);
+  }, [collectUserDataSuccess]);
+
+  useEffect(() => {
+    if (sendCollectedUserDataError) {
+      notification.error({
+        message: "Error (sending data)",
+        description: sendCollectedUserDataError.toString(),
+        placement: "topRight",
+      });
+    }
+  }, [sendCollectedUserDataError]);
+
+  useEffect(() => {
+    if (sendCollectedUserDataSuccess) {
+      notification.success({
+        message: "Success",
+        description: "Data has been sent successfully",
+        placement: "topRight",
+      });
+
+      setTimeout(() => {
+        form.resetFields();
+      }, 600);
+    }
+  }, [sendCollectedUserDataSuccess]);
 
   const activityFamilyOptions = useMemo(
     () => [
@@ -54,6 +103,7 @@ export const CollectDataPage = () => {
   const onFinish = useCallback(
     async (values: CollectFormType) => {
       if (Object.keys(values).length) {
+        setDto(values);
         await collectUserDataMutation(values);
       }
     },
@@ -91,7 +141,7 @@ export const CollectDataPage = () => {
             label="Date de naissance"
             rules={[{ required: true, message: "Veuillez sélectionner votre date de naissance!" }]}
           >
-            <DatePicker style={{ width: "100%" }} placeholder="" />
+            <DatePicker style={{ width: "100%" }} placeholder="" format="DD.MM.YYYY" />
           </Form.Item>
 
           <Form.Item
@@ -148,7 +198,11 @@ export const CollectDataPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={isLoading}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={collectUserDataLoading || sendCollectedUserDataLoading}
+            >
               Soumettre
             </Button>
           </Form.Item>
