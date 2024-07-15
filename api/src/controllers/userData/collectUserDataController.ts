@@ -12,11 +12,11 @@ export const collectUserDataController = async (req: any, res: Response) => {
     } = req;
 
     const isDataValid = await validateByRules(body, {
-      firstName: "required|minLength:3|maxLength:50",
-      lastName: "required|minLength:3|maxLength:50",
+      firstName: "string|required|minLength:3|maxLength:50",
+      lastName: "string|required|minLength:3|maxLength:50",
       dob: "required|minLength:3",
-      email: "required|minLength:5|maxLength:50",
-      phone: "required|minLength:3",
+      email: "string|required|minLength:5|maxLength:50",
+      phone: "string|required|minLength:3",
       activityFamily: "required|minLength:3",
       options: "array|required",
     });

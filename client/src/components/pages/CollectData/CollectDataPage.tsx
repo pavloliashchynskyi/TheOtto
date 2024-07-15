@@ -1,7 +1,9 @@
 import { App, Button, Checkbox, DatePicker, Form, Input, Select, Tooltip } from "antd";
 import { useCallback, useEffect, useMemo } from "react";
+import InputMask from "react-input-mask";
 
 import { dataCollectionAPI } from "../../../redux/services/DataCollectionService";
+import { CollectFormType } from "../../../types/collectDataTypes";
 
 import "./collectDataPage.styles.css";
 
@@ -50,7 +52,7 @@ export const CollectDataPage = () => {
   );
 
   const onFinish = useCallback(
-    async (values: any) => {
+    async (values: CollectFormType) => {
       if (Object.keys(values).length) {
         await collectUserDataMutation(values);
       }
@@ -103,9 +105,14 @@ export const CollectDataPage = () => {
           <Form.Item
             name="phone"
             label="Numéro de téléphone"
-            rules={[{ required: true, message: "Veuillez entrer votre numéro de téléphone!" }]}
+            rules={[
+              { required: true, message: "Veuillez entrer votre numéro de téléphone!" },
+              { pattern: /^[0-9-]+$/, message: "Veuillez entrer un numéro de téléphone valide!" },
+            ]}
           >
-            <Input type="tel" />
+            <InputMask mask="999-999-9999">
+              {() => <Input type="tel" placeholder="123-456-7890" />}
+            </InputMask>
           </Form.Item>
 
           <Form.Item
