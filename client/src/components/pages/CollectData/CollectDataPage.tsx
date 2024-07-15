@@ -1,5 +1,7 @@
-import { Button, Checkbox, DatePicker, Form, Input, Select, Tooltip } from "antd";
-import { useCallback } from "react";
+import { App, Button, Checkbox, DatePicker, Form, Input, Select, Tooltip } from "antd";
+import { useCallback, useEffect, useMemo } from "react";
+
+import { dataCollectionAPI } from "../../../redux/services/DataCollectionService";
 
 import "./collectDataPage.styles.css";
 
@@ -8,9 +10,53 @@ const { Option } = Select;
 export const CollectDataPage = () => {
   const [form] = Form.useForm();
 
-  const onFinish = useCallback((values: any) => {
-    console.log({ values });
-  }, []);
+  const { notification } = App.useApp();
+
+  const [collectUserDataMutation, { isLoading, error, isSuccess }] =
+    dataCollectionAPI.useCollectUserDataMutation();
+
+  useEffect(() => {
+    if (error) {
+      notification.error({
+        message: "Error",
+        description: error.toString(),
+        placement: "topRight",
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      notification.success({
+        message: "Success",
+        description: "Data has been collected successfully",
+        placement: "topRight",
+      });
+
+      setTimeout(() => form.resetFields(), 600);
+    }
+  }, [isSuccess]);
+
+  const activityFamilyOptions = useMemo(
+    () => [
+      { value: "Conseil/Service aux Entreprises/Education/Formation" },
+      { value: "Bien-Être" },
+      { value: "Informatique et Technologie" },
+      { value: "Média/Marketing" },
+      { value: "Service à la personne" },
+      { value: "Activités Spécifiques" },
+    ],
+    [],
+  );
+
+  const onFinish = useCallback(
+    async (values: any) => {
+      if (Object.keys(values).length) {
+        await collectUserDataMutation(values);
+      }
+    },
+    [collectUserDataMutation],
+  );
 
   return (
     <div className="collectDataWrapper">
@@ -68,14 +114,11 @@ export const CollectDataPage = () => {
             rules={[{ required: true, message: "Veuillez sélectionner une famille d’activité!" }]}
           >
             <Select placeholder="Sélectionnez une famille d’activité">
-              <Option value="Conseil/Service aux Entreprises/Education/Formation">
-                Conseil/Service aux Entreprises/Education/Formation
-              </Option>
-              <Option value="Bien-Être">Bien-Être</Option>
-              <Option value="Informatique et Technologie">Informatique et Technologie</Option>
-              <Option value="Média/Marketing">Média/Marketing</Option>
-              <Option value="Service à la personne">Service à la personne</Option>
-              <Option value="Activités Spécifiques">Activités Spécifiques</Option>
+              {activityFamilyOptions.map((opt: any, index: number) => (
+                <Option key={index} value={opt.value}>
+                  {opt.value}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -98,7 +141,7 @@ export const CollectDataPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={isLoading}>
               Soumettre
             </Button>
           </Form.Item>
