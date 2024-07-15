@@ -1,4 +1,4 @@
 export const MENU_ITEMS_KEYS = {
-  MAIN: "mainPage",
+  DASHBOARD: "dashboardPage",
   COLLECT_DATA: "collectDataPage",
 };

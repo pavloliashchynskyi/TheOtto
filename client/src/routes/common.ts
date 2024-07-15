@@ -1,4 +1,4 @@
 export const MENU_ROUTES = {
   root: "/",
-  collectDataPage: "/collect-data",
+  dashboardPage: "/dashboard",
 } as any;
