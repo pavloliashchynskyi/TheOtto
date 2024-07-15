@@ -1,4 +1,5 @@
 import { Button, Checkbox, DatePicker, Form, Input, Select, Tooltip } from "antd";
+import { useCallback } from "react";
 
 import "./collectDataPage.styles.css";
 
@@ -7,7 +8,9 @@ const { Option } = Select;
 export const CollectDataPage = () => {
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {};
+  const onFinish = useCallback((values: any) => {
+    console.log({ values });
+  }, []);
 
   return (
     <div className="collectDataWrapper">
@@ -83,12 +86,14 @@ export const CollectDataPage = () => {
           >
             <Checkbox.Group style={{ display: "flex", flexDirection: "column" }}>
               <Tooltip title="test">
-                <Checkbox value="Option1">Option Cyber</Checkbox>
+                <Checkbox value="Option Cyber">Option Cyber</Checkbox>
               </Tooltip>
               <Tooltip title="test">
-                <Checkbox value="Option2">Option Responsabilité du dirigeant</Checkbox>
+                <Checkbox value="Option Responsabilité du dirigeant">
+                  Option Responsabilité du dirigeant
+                </Checkbox>
               </Tooltip>
-              <Checkbox value="Option3">Option Homme-clé</Checkbox>
+              <Checkbox value="Option Homme-clé">Option Homme-clé</Checkbox>
             </Checkbox.Group>
           </Form.Item>
 
