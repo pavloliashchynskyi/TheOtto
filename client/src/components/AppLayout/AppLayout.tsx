@@ -16,7 +16,7 @@ export const AppLayout: React.FC = () => {
   const menuItems: ItemType<MenuItemType>[] = useMemo(
     () => [
       { key: MENU_ITEMS_KEYS.MAIN, label: "Main" },
-      { key: MENU_ITEMS_KEYS.COLLECT_DATA, label: "Collect data" },
+      { key: MENU_ITEMS_KEYS.COLLECT_DATA, label: "Data collection" },
     ],
     [],
   );
@@ -58,7 +58,7 @@ export const AppLayout: React.FC = () => {
             fontSize: "20px",
           }}
         >
-          Befe
+          The Otto
         </div>
       </Header>
       <Content style={{ padding: "32px" }}>
