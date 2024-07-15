@@ -21,7 +21,7 @@ export const CollectDataPage = () => {
         >
           <Form.Item
             name="firstName"
-            label="Prénom [First Name]"
+            label="Prénom"
             rules={[{ required: true, message: "Veuillez entrer votre prénom!" }]}
           >
             <Input />
@@ -29,7 +29,7 @@ export const CollectDataPage = () => {
 
           <Form.Item
             name="lastName"
-            label="Nom [Last Name]"
+            label="Nom"
             rules={[{ required: true, message: "Veuillez entrer votre nom!" }]}
           >
             <Input />
@@ -37,10 +37,10 @@ export const CollectDataPage = () => {
 
           <Form.Item
             name="dob"
-            label="Date de naissance [Date of Birth]"
+            label="Date de naissance"
             rules={[{ required: true, message: "Veuillez sélectionner votre date de naissance!" }]}
           >
-            <DatePicker style={{ width: "100%" }} />
+            <DatePicker style={{ width: "100%" }} placeholder="" />
           </Form.Item>
 
           <Form.Item
@@ -53,7 +53,7 @@ export const CollectDataPage = () => {
 
           <Form.Item
             name="phone"
-            label="Numéro de téléphone [Phone Number]"
+            label="Numéro de téléphone"
             rules={[{ required: true, message: "Veuillez entrer votre numéro de téléphone!" }]}
           >
             <Input type="tel" />
@@ -61,7 +61,7 @@ export const CollectDataPage = () => {
 
           <Form.Item
             name="activityFamily"
-            label="Famille d’activité [Business Activity Family]"
+            label="Famille d’activité"
             rules={[{ required: true, message: "Veuillez sélectionner une famille d’activité!" }]}
           >
             <Select placeholder="Sélectionnez une famille d’activité">
@@ -83,14 +83,12 @@ export const CollectDataPage = () => {
           >
             <Checkbox.Group style={{ display: "flex", flexDirection: "column" }}>
               <Tooltip title="test">
-                <Checkbox value="Option1">Option Cyber - [Cyber Liability]</Checkbox>
+                <Checkbox value="Option1">Option Cyber</Checkbox>
               </Tooltip>
               <Tooltip title="test">
-                <Checkbox value="Option2">
-                  Option Responsabilité du dirigeant [Director's Liability]
-                </Checkbox>
+                <Checkbox value="Option2">Option Responsabilité du dirigeant</Checkbox>
               </Tooltip>
-              <Checkbox value="Option3">Option Homme-clé [Key Person]</Checkbox>
+              <Checkbox value="Option3">Option Homme-clé</Checkbox>
             </Checkbox.Group>
           </Form.Item>
 

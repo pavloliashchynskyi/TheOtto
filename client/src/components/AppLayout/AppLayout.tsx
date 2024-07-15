@@ -58,7 +58,7 @@ export const AppLayout: React.FC = () => {
             fontSize: "20px",
           }}
         >
-          The Otto
+          Otto
         </div>
       </Header>
       <Content style={{ padding: "32px" }}>
