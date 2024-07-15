@@ -20,7 +20,7 @@ export const dataCollectionAPI = createApi({
         url: "https://laas-dev.spvie.com/api/Projects/",
         method: "POST",
         headers: {
-          "Authorization-Broker-Code": 60169,
+          "Authorization-Broker-Code": "60169",
           "Authorization-Broker-Token": "30d2a5a5-a33b-4ad0-8ce0-009b669a56d7",
         },
         body: dto,
