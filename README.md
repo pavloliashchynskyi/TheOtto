@@ -1,5 +1,5 @@
 Create database (collection will be created automatically a bit later). \
-You should prepare .env file in api directory with following vars: PORT, MONGO_URL.
+You should prepare .env file in api directory with following vars: PORT=4444, MONGO_URL=<your_URL>.
 
 
 You should have installed node on your machine.
