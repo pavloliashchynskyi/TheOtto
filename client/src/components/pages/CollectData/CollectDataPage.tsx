@@ -82,7 +82,8 @@ export const CollectDataPage = () => {
       });
 
       setTimeout(() => {
-        sendCollectedData();
+        sendCollectedData(); //TODO: temporary unavailable due to CORS error on the remote server
+        form.resetFields(); //TODO: after fix uncomment it in the sendCollectedUserDataSuccess block
       }, 600);
     }
   }, [collectUserDataSuccess]);
@@ -105,9 +106,9 @@ export const CollectDataPage = () => {
         placement: "topRight",
       });
 
-      setTimeout(() => {
-        form.resetFields();
-      }, 600);
+      // setTimeout(() => {
+      //   form.resetFields();
+      // }, 600);
     }
   }, [sendCollectedUserDataSuccess]);
 
