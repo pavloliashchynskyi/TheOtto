@@ -1,4 +1,4 @@
-Create database (collection will be created automatically a bit later).
+Create database (collection will be created automatically a bit later). \
 You should prepare .env file in api directory with following vars: PORT, MONGO_URL.
 
 
