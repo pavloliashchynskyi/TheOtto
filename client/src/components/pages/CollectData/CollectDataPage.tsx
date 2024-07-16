@@ -1,4 +1,4 @@
-import { App, Button, Checkbox, DatePicker, Form, Input, Select, Tooltip } from "antd";
+import { App, Button, Checkbox, DatePicker, Form, Input, Popover, Select } from "antd";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import InputMask from "react-input-mask";
@@ -208,14 +208,57 @@ export const CollectDataPage = () => {
             rules={[{ required: true, message: "Veuillez sélectionner au moins une option!" }]}
           >
             <Checkbox.Group style={{ display: "flex", flexDirection: "column" }}>
-              <Tooltip title="test">
+              <Popover
+                content={
+                  <div>
+                    <strong>
+                      - Avoir mis en place les mesures d'hygiène informatique suivantes :
+                    </strong>
+                    <li>
+                      - Protection permanente de type anti-virus sur les systèmes informatiques
+                      locaux contenant des bases de données
+                    </li>
+                    <li>- Pares-feux installés à tous les points de connexion à internet</li>
+                    <li>
+                      - Sauvegarde hebdomadaire des données sur des systèmes ou des supports de
+                      données distincts
+                    </li>
+                    <li>
+                      - Mise à jour et mise à niveaux régulières des systèmes d’exploitation et des
+                      logiciels selon les évolutions transmises par les éditeurs
+                    </li>
+                    <li>
+                      <strong>
+                        - Justifier sur les cinq dernières années d'aucun événement susceptible
+                        d’être couvert par la garantie
+                      </strong>
+                    </li>
+                    <strong>Cyber proposé au Contrat</strong>
+                  </div>
+                }
+              >
                 <Checkbox value="Option Cyber">Option Cyber</Checkbox>
-              </Tooltip>
-              <Tooltip title="test">
+              </Popover>
+              <Popover
+                content={
+                  <div>
+                    <li>
+                      - Avoir eu des résultats nets positifs sur les deux derniers états financiers
+                    </li>
+                    <li>
+                      - Disposer de fonds propres positifs sur les deux derniers états financiers
+                    </li>
+                    <li>
+                      - Justifier sur les cinq dernières années d'aucune réclamation de tiers
+                      engageant leur Responsabilité en tant que dirigeant de fait ou de droit
+                    </li>
+                  </div>
+                }
+              >
                 <Checkbox value="Option Responsabilité du dirigeant">
                   Option Responsabilité du dirigeant
                 </Checkbox>
-              </Tooltip>
+              </Popover>
               <Checkbox value="Option Homme-clé">Option Homme-clé</Checkbox>
             </Checkbox.Group>
           </Form.Item>
