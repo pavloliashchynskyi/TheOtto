@@ -9,11 +9,11 @@ export const getCollectedUserDataFromDBController = async (req: any, res: Respon
       query: { limit, offset },
     } = req;
 
-    const dto = await UserData.find().limit(Number(limit)).skip(Number(offset));
+    const userData = await UserData.find().limit(Number(limit)).skip(Number(offset));
     const count = await UserData.countDocuments();
 
     res.json({
-      collected: dto,
+      collected: userData,
       count,
     });
   } catch (err) {

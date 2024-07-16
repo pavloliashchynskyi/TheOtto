@@ -27,7 +27,7 @@ export const collectUserDataController = async (req: any, res: Response) => {
       });
     }
 
-    const dto = await UserData.create({
+    const userData = await UserData.create({
       firstName,
       lastName,
       dob,
@@ -38,7 +38,7 @@ export const collectUserDataController = async (req: any, res: Response) => {
     });
 
     res.status(201).json({
-      collected: dto,
+      collected: userData,
     });
   } catch (err) {
     if (err instanceof Error) {
