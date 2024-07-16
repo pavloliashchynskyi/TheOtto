@@ -1,4 +1,5 @@
 You should prepare .env file in api directory with following vars: PORT, MONGO_URL.
+Create database (collection will be created automatically a bit later).
 
 You should have installed node on your machine.
 
