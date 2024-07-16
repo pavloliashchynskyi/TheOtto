@@ -5,10 +5,16 @@ import { UserData } from "../../models/UserData";
 
 export const getCollectedUserDataFromDBController = async (req: any, res: Response) => {
   try {
-    const dto = await UserData.find();
+    const {
+      query: { limit, offset },
+    } = req;
+
+    const dto = await UserData.find().limit(Number(limit)).skip(Number(offset));
+    const count = await UserData.countDocuments();
 
     res.json({
       collected: dto,
+      count,
     });
   } catch (err) {
     if (err instanceof Error) {

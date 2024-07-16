@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { CollectFormType } from "../../types/collectDataTypes";
 
 export const dataCollectionAPI = createApi({
   reducerPath: "dataCollectionAPI",
   baseQuery: fetchBaseQuery({ baseUrl: "" }),
-  //baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:4444" }),
   tagTypes: ["collectedData"],
   endpoints: (build) => ({
     collectUserData: build.mutation({
-      query: (dto: any) => ({
+      query: (dto: CollectFormType) => ({
         url: "http://localhost:4444/collect-data",
         method: "POST",
         body: dto,
@@ -17,7 +17,7 @@ export const dataCollectionAPI = createApi({
     }),
     sendCollectedDataToAPI: build.mutation({
       query: (dto: any) => ({
-        url: "https://laas-dev.spvie.com/api/Projects/",
+        url: "https://laas-dev.spvie.com/api/Projects/SaveLead",
         method: "POST",
         headers: {
           "Authorization-Broker-Code": "60169",
@@ -28,9 +28,13 @@ export const dataCollectionAPI = createApi({
       transformErrorResponse: (response: any) => response.errors,
     }),
     fetchCollectedUserDataFromDB: build.query({
-      query: () => ({
+      query: ({ limit = 10, offset = 0 }: { limit?: number; offset?: number }) => ({
         url: "http://localhost:4444/fetch-collected-data",
         method: "GET",
+        params: {
+          limit,
+          offset,
+        },
       }),
       transformErrorResponse: (response: any) => response?.data?.data?.err,
       providesTags: () => ["collectedData"],

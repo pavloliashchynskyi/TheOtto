@@ -1,4 +1,5 @@
 import { App, Button, Checkbox, DatePicker, Form, Input, Select, Tooltip } from "antd";
+import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import InputMask from "react-input-mask";
 
@@ -36,9 +37,31 @@ export const CollectDataPage = () => {
 
   const sendCollectedData = useCallback(async () => {
     if (Object.keys(dto).length) {
-      await sendCollectedUserDataMutation(dto);
+      const obj = {
+        EffectDate: dayjs().add(1, "D").toISOString(),
+        Level: "testLevel",
+        Commission: 30,
+        OptionLevel: "testOptionLevel",
+        BrokerCode: 0,
+        BrokerAdministrativeFees: 0,
+        SpvieAdministrativeFeesRate: 0,
+        ProductCategory: 15,
+        Freelancer: true,
+        AnnualRevenue: 0,
+        ProductSpecificFields: {
+          RcProPrestaServiceFields: {
+            ActivityKeys: ["testActivityKey"],
+            ActivityFamily: dto.activityFamily,
+            OptionList: dto.options.map((opt: string) => ({ Name: opt, isActive: true })),
+            AutoEntrepreneurConditions: true,
+            InfoNotice: true,
+            IsAccepted: true,
+          },
+        },
+      };
+      await sendCollectedUserDataMutation(obj);
     }
-  }, [dto, sendCollectedUserDataMutation]);
+  }, [sendCollectedUserDataMutation, dto]);
 
   useEffect(() => {
     if (collectUserDataError) {

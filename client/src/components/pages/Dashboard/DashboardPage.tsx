@@ -1,16 +1,19 @@
 import { App, Table } from "antd";
-import { useEffect, useMemo } from "react";
-
+import dayjs from "dayjs";
+import { useEffect, useMemo, useState } from "react";
 import { dataCollectionAPI } from "../../../redux/services/DataCollectionService";
 import { Loader } from "../../Loader/Loader";
 
-import dayjs from "dayjs";
 import "./dashboardPage.styles.css";
 
 export const DashboardPage = () => {
+  const [offset, setOffset] = useState<number>(0);
+
   const { notification } = App.useApp();
 
-  const { data, isLoading, error } = dataCollectionAPI.useFetchCollectedUserDataFromDBQuery();
+  const { data, isLoading, error } = dataCollectionAPI.useFetchCollectedUserDataFromDBQuery({
+    offset,
+  });
 
   useEffect(() => {
     if (error) {
@@ -52,9 +55,29 @@ export const DashboardPage = () => {
   );
 
   return (
-    <div className="dashboardPageWrapper">
+    <div id="dashboardPageWrapperID" className="dashboardPageWrapper">
       {isLoading && !data && <Loader />}
-      {data && <Table columns={tableColumns} dataSource={dataSource} pagination={false} />}
+      {data && (
+        <Table
+          columns={tableColumns}
+          dataSource={dataSource}
+          pagination={{
+            total: data.count,
+            showTotal: (total: number) => `Total ${total} items`,
+            defaultCurrent: 1,
+            onChange: (page: number) => {
+              if (page === 1) {
+                setOffset(0);
+              } else {
+                setOffset(dataSource.length);
+              }
+            },
+            size: "small",
+          }}
+          rowKey="key"
+          bordered
+        />
+      )}
     </div>
   );
 };
