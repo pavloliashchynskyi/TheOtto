@@ -63,7 +63,7 @@ export const DashboardPage = () => {
           dataSource={dataSource}
           pagination={{
             total: data.count,
-            showTotal: (total: number) => `Total ${total} items`,
+            showTotal: (total: number) => `Total ${total} articles`,
             defaultCurrent: 1,
             onChange: (page: number) => {
               if (page === 1) {
