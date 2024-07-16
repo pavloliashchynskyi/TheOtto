@@ -147,7 +147,10 @@ export const CollectDataPage = () => {
           <Form.Item
             name="firstName"
             label="Prénom"
-            rules={[{ required: true, message: "Veuillez entrer votre prénom!" }]}
+            rules={[
+              { required: true, message: "Veuillez entrer votre prénom!" },
+              { pattern: /^[a-zA-Z]+$/, message: "Veuillez entrer un prénom valide!" },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -155,7 +158,10 @@ export const CollectDataPage = () => {
           <Form.Item
             name="lastName"
             label="Nom"
-            rules={[{ required: true, message: "Veuillez entrer votre nom!" }]}
+            rules={[
+              { required: true, message: "Veuillez entrer votre nom!" },
+              { pattern: /^[a-zA-Z]+$/, message: "Veuillez entrer un nom valide!" },
+            ]}
           >
             <Input />
           </Form.Item>
