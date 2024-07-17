@@ -114,7 +114,7 @@ export const CollectDataPage = () => {
   useEffect(() => {
     if (sendCollectedUserDataError) {
       notification.error({
-        message: "Error (sending data)",
+        message: "Error (calculating price)",
         description: sendCollectedUserDataError.toString(),
         placement: "topRight",
       });
