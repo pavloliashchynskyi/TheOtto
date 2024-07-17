@@ -34,6 +34,7 @@ export const DashboardPage = () => {
       { title: "Numéro de téléphone", dataIndex: "phone", key: "phone" },
       { title: "Famille d’activité", dataIndex: "activityFamily", key: "activityFamily" },
       { title: "Options", dataIndex: "options", key: "options" },
+      { title: "Price", dataIndex: "price", key: "price" },
     ],
     [],
   );
@@ -50,6 +51,7 @@ export const DashboardPage = () => {
         phone: dto.phone,
         activityFamily: dto.activityFamily,
         options: dto.options.map((opt: string) => ` | ${opt}`),
+        price: dto.price,
       })),
     [data],
   );

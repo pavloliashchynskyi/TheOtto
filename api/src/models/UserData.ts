@@ -12,6 +12,7 @@ const UserDataSchema = new Schema(
     phone: { type: String, required: true },
     activityFamily: { type: String, required: true },
     options: { type: [String], required: true },
+    price: { type: String, required: true },
   },
   { timestamps: true, autoCreate: true },
 );

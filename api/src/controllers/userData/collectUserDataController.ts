@@ -8,7 +8,7 @@ export const collectUserDataController = async (req: any, res: Response) => {
   try {
     const {
       body,
-      body: { firstName, lastName, dob, email, phone, activityFamily, options },
+      body: { firstName, lastName, dob, email, phone, activityFamily, options, price },
     } = req;
 
     const isDataValid = await validateByRules(body, {
@@ -19,6 +19,7 @@ export const collectUserDataController = async (req: any, res: Response) => {
       phone: "string|required|minLength:3",
       activityFamily: "required|minLength:3",
       options: "array|required",
+      price: "required",
     });
 
     if (!isDataValid) {
@@ -35,6 +36,7 @@ export const collectUserDataController = async (req: any, res: Response) => {
       phone,
       activityFamily,
       options,
+      price,
     });
 
     res.status(201).json({

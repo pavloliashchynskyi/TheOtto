@@ -1,4 +1,5 @@
 import { App, Button, Checkbox, DatePicker, Form, Input, Popover, Select } from "antd";
+import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import InputMask from "react-input-mask";
 
@@ -35,21 +36,21 @@ export const CollectDataPage = () => {
     },
   ] = dataCollectionAPI.useSendCollectedDataToAPIMutation();
 
-  const sendCollectedData = useCallback(async () => {
-    if (Object.keys(dto).length) {
+  const sendCollectedData = useCallback(async (dtobj: any) => {
+    if (Object.keys(dtobj).length) {
       const obj = {
         Client: {
           PostCode: "75016",
-          BirthDate: "1990-07-17T11:54:23.568Z",
+          BirthDate: dayjs(dtobj.dbo).toISOString(),
           SocialSecurityRegime: "RG",
-          Name: "string",
+          Name: dtobj.lastName,
           MaidenName: "string",
-          FirstName: "string",
+          FirstName: dtobj.firstName,
           SocialSecurityNumber: "string",
           Title: 0,
           OrganismeCode: "string",
           FamilySituation: 0,
-          Email: "string",
+          Email: dtobj.email,
         },
         EffectDate: "2024-07-18T11:54:23.568Z",
         Level: "Niveau 1",
@@ -58,9 +59,9 @@ export const CollectDataPage = () => {
         BrokerCode: 0,
         BrokerAdministrativeFees: 0,
         SpvieAdministrativeFeesRate: 0,
-        ProductCategory: 1,
+        ProductCategory: 15,
         Freelancer: true,
-        AnnualRevenue: 0,
+        AnnualRevenue: 30,
         ProductSpecificFields: {
           RcProPrestaServiceFields: {
             ActivityKeys: ["string"],
@@ -84,7 +85,7 @@ export const CollectDataPage = () => {
 
       await sendCollectedUserDataMutation(obj);
     }
-  }, [dto]);
+  }, []);
 
   useEffect(() => {
     if (collectUserDataError) {
@@ -105,7 +106,7 @@ export const CollectDataPage = () => {
       });
 
       setTimeout(() => {
-        sendCollectedData();
+        form.resetFields();
       }, 600);
     }
   }, [collectUserDataSuccess]);
@@ -128,7 +129,10 @@ export const CollectDataPage = () => {
       });
 
       setTimeout(() => {
-        form.resetFields();
+        collectUserDataMutation({
+          ...dto,
+          price: sendCollectedUserData.Price.toString(),
+        });
       }, 600);
     }
   }, [sendCollectedUserDataSuccess]);
@@ -149,7 +153,7 @@ export const CollectDataPage = () => {
     async (values: CollectFormType) => {
       if (Object.keys(values).length) {
         setDto(values);
-        await collectUserDataMutation(values);
+        await sendCollectedData(values);
       }
     },
     [collectUserDataMutation],

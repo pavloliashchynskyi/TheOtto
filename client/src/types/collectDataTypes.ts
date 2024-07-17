@@ -6,4 +6,5 @@ export type CollectFormType = {
   phone: string;
   activityFamily: string;
   options: string[];
+  price: string;
 };
