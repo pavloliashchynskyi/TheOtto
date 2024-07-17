@@ -1,5 +1,4 @@
 import { App, Button, Checkbox, DatePicker, Form, Input, Popover, Select } from "antd";
-import dayjs from "dayjs";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import InputMask from "react-input-mask";
 
@@ -32,36 +31,60 @@ export const CollectDataPage = () => {
       isLoading: sendCollectedUserDataLoading,
       error: sendCollectedUserDataError,
       isSuccess: sendCollectedUserDataSuccess,
+      data: sendCollectedUserData,
     },
   ] = dataCollectionAPI.useSendCollectedDataToAPIMutation();
 
   const sendCollectedData = useCallback(async () => {
     if (Object.keys(dto).length) {
       const obj = {
-        EffectDate: dayjs().add(1, "D").toISOString(),
-        Level: "testLevel",
-        Commission: 30,
-        OptionLevel: "testOptionLevel",
+        Client: {
+          PostCode: "75016",
+          BirthDate: "1990-07-17T11:54:23.568Z",
+          SocialSecurityRegime: "RG",
+          Name: "string",
+          MaidenName: "string",
+          FirstName: "string",
+          SocialSecurityNumber: "string",
+          Title: 0,
+          OrganismeCode: "string",
+          FamilySituation: 0,
+          Email: "string",
+        },
+        EffectDate: "2024-07-18T11:54:23.568Z",
+        Level: "Niveau 1",
+        Commission: 0,
+        OptionLevel: "string",
         BrokerCode: 0,
         BrokerAdministrativeFees: 0,
         SpvieAdministrativeFeesRate: 0,
-        ProductCategory: 15,
+        ProductCategory: 1,
         Freelancer: true,
         AnnualRevenue: 0,
         ProductSpecificFields: {
           RcProPrestaServiceFields: {
-            ActivityKeys: ["testActivityKey"],
-            ActivityFamily: dto.activityFamily,
-            OptionList: dto.options.map((opt: string) => ({ Name: opt, isActive: true })),
+            ActivityKeys: ["string"],
+            ActivityFamily: "string",
+            OptionList: [
+              {
+                Name: 0,
+                IsActive: true,
+              },
+            ],
             AutoEntrepreneurConditions: true,
             InfoNotice: true,
             IsAccepted: true,
           },
+          InsuranceCoverType: 0,
         },
+        IsSurcoEnabled: true,
+        PaymentPeriod: 0,
+        SourceApp: 0,
       };
+
       await sendCollectedUserDataMutation(obj);
     }
-  }, [sendCollectedUserDataMutation, dto]);
+  }, [dto]);
 
   useEffect(() => {
     if (collectUserDataError) {
@@ -82,8 +105,7 @@ export const CollectDataPage = () => {
       });
 
       setTimeout(() => {
-        sendCollectedData(); //TODO: temporary unavailable due to CORS error on the remote server
-        form.resetFields(); //TODO: after fix uncomment it in the sendCollectedUserDataSuccess block
+        sendCollectedData();
       }, 600);
     }
   }, [collectUserDataSuccess]);
@@ -100,15 +122,14 @@ export const CollectDataPage = () => {
 
   useEffect(() => {
     if (sendCollectedUserDataSuccess) {
-      notification.success({
-        message: "Success",
-        description: "Data has been sent successfully",
+      notification.info({
+        message: `Price: ${sendCollectedUserData.Price}`,
         placement: "topRight",
       });
 
-      // setTimeout(() => {
-      //   form.resetFields();
-      // }, 600);
+      setTimeout(() => {
+        form.resetFields();
+      }, 600);
     }
   }, [sendCollectedUserDataSuccess]);
 

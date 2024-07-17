@@ -3,7 +3,7 @@ import { CollectFormType } from "../../types/collectDataTypes";
 
 export const dataCollectionAPI = createApi({
   reducerPath: "dataCollectionAPI",
-  baseQuery: fetchBaseQuery({ baseUrl: "" }),
+  baseQuery: fetchBaseQuery({}),
   tagTypes: ["collectedData"],
   endpoints: (build) => ({
     collectUserData: build.mutation({
@@ -16,17 +16,23 @@ export const dataCollectionAPI = createApi({
       invalidatesTags: ["collectedData"],
     }),
     sendCollectedDataToAPI: build.mutation({
-      query: (dto: any) => ({
-        url: "https://laas-dev.spvie.com/api/Projects/SaveLead",
-        method: "POST",
-        headers: {
-          "Authorization-Broker-Code": "60169",
-          "Authorization-Broker-Token": "30d2a5a5-a33b-4ad0-8ce0-009b669a56d7",
-        },
-        body: dto,
-      }),
-      transformErrorResponse: (response: any) => response.errors,
+      query: (dto: any) => {
+        return {
+          url: "https://cors-anywhere.herokuapp.com/https://laasb2c-dev.spvie.com/api/Products/ComputeIndividualProjectPrice",
+          method: "POST",
+          headers: {
+            "Authorization-Broker-Code": 60169,
+            "Authorization-Broker-Token": "30d2a5a5-a33b-4ad0-8ce0-009b669a56d7",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dto),
+        };
+      },
+      transformErrorResponse: (response: any) => {
+        return response.errors;
+      },
     }),
+
     fetchCollectedUserDataFromDB: build.query({
       query: ({ limit = 10, offset = 0 }: { limit?: number; offset?: number }) => ({
         url: "http://localhost:4444/fetch-collected-data",
